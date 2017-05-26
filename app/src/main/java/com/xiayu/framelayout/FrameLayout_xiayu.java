@@ -17,6 +17,7 @@
 package com.xiayu.framelayout;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.AttrRes;
@@ -24,6 +25,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StyleRes;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewDebug;
@@ -52,6 +54,7 @@ import java.util.ArrayList;
  */
 @RemoteView
 public class FrameLayout_xiayu extends ViewGroup {
+    private static final String TAG = "FrameLayout_xiayu";
     private static final int DEFAULT_CHILD_GRAVITY = Gravity.TOP | Gravity.START;
 
     @ViewDebug.ExportedProperty(category = "measurement")
@@ -88,16 +91,15 @@ public class FrameLayout_xiayu extends ViewGroup {
                        @AttrRes int defStyleAttr, @StyleRes int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
 
-        /*xiayu fix */
-/*        final TypedArray a = context.obtainStyledAttributes(
-                attrs, R.styleable.FrameLayout, defStyleAttr, defStyleRes);
+        final TypedArray a = context.obtainStyledAttributes(
+                attrs, R.styleable.FrameLayout_xiayu, defStyleAttr, defStyleRes);
 
-        if (a.getBoolean(R.styleable.FrameLayout_measureAllChildren, false)) {
+        if (a.getBoolean(R.styleable.FrameLayout_xiayu_measureAllChildren, false)) {
             setMeasureAllChildren(true);
         }
 
-        a.recycle();*/
-        setMeasureAllChildren(true);
+        a.recycle();
+
     }
 
     /**
@@ -165,11 +167,13 @@ public class FrameLayout_xiayu extends ViewGroup {
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         int count = getChildCount();
 
+        //当FrameLayout的layout_width设置成100dp，measureMatchParentChildren将会是false,
+        //如果是match_parent,或是wrap_content,则有可能是true
         final boolean measureMatchParentChildren =
                 MeasureSpec.getMode(widthMeasureSpec) != MeasureSpec.EXACTLY ||
                         MeasureSpec.getMode(heightMeasureSpec) != MeasureSpec.EXACTLY;
         mMatchParentChildren.clear();
-
+        Log.i(TAG,"count:"+ count+"     measureMatchParentChildren:"+measureMatchParentChildren);
         int maxHeight = 0;
         int maxWidth = 0;
         int childState = 0;
@@ -177,7 +181,7 @@ public class FrameLayout_xiayu extends ViewGroup {
         for (int i = 0; i < count; i++) {
             final View child = getChildAt(i);
             if (mMeasureAllChildren || child.getVisibility() != GONE) {
-                measureChildWithMargins(child, widthMeasureSpec, 0, heightMeasureSpec, 0);
+                measureChildWithMargins(child, widthMeasureSpec, 0, heightMeasureSpec, 0);//测量一个child
                 final LayoutParams lp = (LayoutParams) child.getLayoutParams();
                 maxWidth = Math.max(maxWidth,
                         child.getMeasuredWidth() + lp.leftMargin + lp.rightMargin);
@@ -187,6 +191,7 @@ public class FrameLayout_xiayu extends ViewGroup {
                 if (measureMatchParentChildren) {
                     if (lp.width == LayoutParams.MATCH_PARENT ||
                             lp.height == LayoutParams.MATCH_PARENT) {
+                        Log.i(TAG, "mMatchParentChildren ADD");
                         mMatchParentChildren.add(child);
                     }
                 }
@@ -253,6 +258,7 @@ public class FrameLayout_xiayu extends ViewGroup {
 
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
+        Log.i(TAG,"onLayout");
         layoutChildren(left, top, right, bottom, false /* no force left gravity */);
     }
 
@@ -421,8 +427,8 @@ public class FrameLayout_xiayu extends ViewGroup {
         public LayoutParams(@NonNull Context c, @Nullable AttributeSet attrs) {
             super(c, attrs);
 
-        /*    final TypedArray a = c.obtainStyledAttributes(attrs, R.styleable.FrameLayout_Layout);
-            gravity = a.getInt(R.styleable.FrameLayout_Layout_layout_gravity, UNSPECIFIED_GRAVITY);
+/*            final TypedArray a = c.obtainStyledAttributes(attrs, R.styleable.FrameLayout_xiayu_Layout);
+            gravity = a.getInt(R.styleable.FrameLayout_xiayu_Layout_layout_gravity, UNSPECIFIED_GRAVITY);
             a.recycle();*/
         }
 
