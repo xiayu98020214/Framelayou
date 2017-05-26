@@ -27,6 +27,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/bindcard_number"
+            app:layout_gravity="center"
             />
 
     </com.xiayu.framelayout.FrameLayout_xiayu>

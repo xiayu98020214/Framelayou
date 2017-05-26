@@ -426,10 +426,9 @@ public class FrameLayout_xiayu extends ViewGroup {
 
         public LayoutParams(@NonNull Context c, @Nullable AttributeSet attrs) {
             super(c, attrs);
-
-/*            final TypedArray a = c.obtainStyledAttributes(attrs, R.styleable.FrameLayout_xiayu_Layout);
+            final TypedArray a = c.obtainStyledAttributes(attrs, R.styleable.FrameLayout_xiayu_Layout);
             gravity = a.getInt(R.styleable.FrameLayout_xiayu_Layout_layout_gravity, UNSPECIFIED_GRAVITY);
-            a.recycle();*/
+            a.recycle();
         }
 
         public LayoutParams(int width, int height) {
