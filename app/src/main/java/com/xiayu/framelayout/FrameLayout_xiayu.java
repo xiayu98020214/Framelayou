@@ -97,7 +97,7 @@ public class FrameLayout_xiayu extends ViewGroup {
         }
 
         a.recycle();*/
-      //  setMeasureAllChildren(true);
+        setMeasureAllChildren(true);
     }
 
     /**
