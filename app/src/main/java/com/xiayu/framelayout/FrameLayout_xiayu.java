@@ -147,6 +147,7 @@ public class FrameLayout_xiayu extends ViewGroup {
         return new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
     }
 
+    /*xiayu fix*/
     int getPaddingLeftWithForeground() {
         return  getPaddingLeft();
     }
@@ -405,6 +406,7 @@ public class FrameLayout_xiayu extends ViewGroup {
      *
      * @attr ref android.R.styleable#FrameLayout_Layout_layout_gravity
      */
+    /*取得子view的属性，比如layout_gravity*/
     public static class LayoutParams extends MarginLayoutParams {
         /**
          * Value for {@link #gravity} indicating that a gravity has not been
